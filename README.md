@@ -57,7 +57,7 @@ O modelo foi criado em **SQLite**, permitindo execução online sem necessidade 
 
 ## Diagrama do Banco de Dados
 
-![Diagrama do E-commerce](Esquema_Conceitual_Ecommerce.png)  
+![Diagrama do E-commerce](projeto Lógico.jpg)  
 
 > Obs.: O diagrama foi criado no Draw.io e exportado como imagem PNG.
 
@@ -116,4 +116,5 @@ Executar todo o script (criação de tabelas + INSERTs)
 Rodar as queries de teste para validar o funcionamento
 
 Autor
+
 Breno Rodrigues Bittencourt
