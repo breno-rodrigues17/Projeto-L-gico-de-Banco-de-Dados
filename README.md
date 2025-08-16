@@ -1,87 +1,106 @@
-# Projeto de Banco de Dados: E-commerce
+📦 Projeto de Banco de Dados: E-commerce
+📖 Descrição
 
-## Descrição do Projeto
+Este projeto apresenta a modelagem lógica de um banco de dados para um sistema de e-commerce, desenvolvido em SQLite.
+O objetivo é oferecer uma solução capaz de gerenciar clientes, pedidos, produtos, fornecedores, pagamentos e entregas de forma estruturada.
 
-Este projeto consiste na modelagem lógica de um banco de dados para um **sistema de e-commerce**. O objetivo é controlar clientes, pedidos, produtos, fornecedores, pagamentos e entregas.  
+🎯 Funcionalidades do Modelo
 
-O projeto contempla:
+Cadastro de Clientes (Pessoa Física e Jurídica).
 
-- Clientes **PF** (Pessoa Física) e **PJ** (Pessoa Jurídica)  
-- Vários métodos de pagamento por pedido  
-- Status e rastreamento de entrega  
-- Relações entre fornecedores e produtos  
-- Produtos em pedidos (itens, quantidade e preço unitário)  
+Registro de Pedidos com múltiplos produtos.
 
-O modelo foi criado em **SQLite**, permitindo execução online sem necessidade de instalação de servidor.
+Controle de fornecedores e produtos fornecidos.
 
----
+Vários métodos de pagamento por pedido.
 
-## Entidades e Relacionamentos
+Registro de status e rastreamento de entrega.
 
-### Entidades Principais:
+Cálculo automático do valor total dos pedidos.
 
-1. **Cliente**
-   - `cliente_id` (PK)  
-   - `tipo_cliente` (PF/PJ)  
-   - `nome`, `cpf_cnpj`, `email`, `telefone`  
+🗂️ Entidades e Relacionamentos
+Entidades Principais
 
-2. **Fornecedor**
-   - `fornecedor_id` (PK)  
-   - `nome`, `contato`  
+Cliente
 
-3. **Produto**
-   - `produto_id` (PK)  
-   - `nome`, `descricao`, `preco`, `estoque`  
+cliente_id (PK)
 
-4. **Pedido**
-   - `pedido_id` (PK)  
-   - `cliente_id` (FK)  
-   - `data_pedido`, `status_pedido`  
+tipo_cliente (PF/PJ)
 
-5. **Pagamento**
-   - `pagamento_id` (PK)  
-   - `pedido_id` (FK)  
-   - `tipo_pagamento`, `valor`, `status_pagamento`  
+nome, cpf_cnpj, email, telefone
 
-6. **Entrega**
-   - `entrega_id` (PK)  
-   - `pedido_id` (FK)  
-   - `status_entrega`, `codigo_rastreamento`  
+Fornecedor
 
-### Relacionamentos:
+fornecedor_id (PK)
 
-- **PedidoProduto**: relacionamento N:M entre `Pedido` e `Produto` (quantidade e preço unitário)  
-- **FornecedorProduto**: relacionamento N:M entre `Fornecedor` e `Produto`  
+nome, contato
 
----
+Produto
 
-## Diagrama do Banco de Dados
+produto_id (PK)
 
-![Diagrama do E-commerce](projeto Lógico.jpg)  
+nome, descricao, preco, estoque
 
-> Obs.: O diagrama foi criado no Draw.io e exportado como imagem PNG.
+Pedido
 
----
+pedido_id (PK)
 
-## Script SQL
+cliente_id (FK)
 
-O arquivo `script.sql` contém:
+data_pedido, status_pedido
 
-1. Criação de todas as tabelas (`IF NOT EXISTS`)  
-2. Inserção de **dados de teste** (clientes PF/PJ, fornecedores, produtos, pedidos, pagamentos e entregas)  
-3. Queries complexas exigidas pelo desafio, incluindo:  
-   - SELECT simples  
-   - Filtros com WHERE  
-   - Atributos derivados (valor total do pedido)  
-   - Ordenação com ORDER BY  
-   - Filtros em grupo com HAVING  
-   - Junções entre tabelas (JOIN)  
+Pagamento
 
----
+pagamento_id (PK)
 
-## Queries Exemplos
+pedido_id (FK)
 
-1. **Pedidos por cliente**  
+tipo_pagamento, valor, status_pagamento
+
+Entrega
+
+entrega_id (PK)
+
+pedido_id (FK)
+
+status_entrega, codigo_rastreamento
+
+Relacionamentos
+
+PedidoProduto → Relacionamento N:M entre Pedido e Produto (quantidade, preco_unitario).
+
+FornecedorProduto → Relacionamento N:M entre Fornecedor e Produto.
+
+📊 Diagrama do Banco de Dados
+
+
+O diagrama foi criado no Draw.io e exportado como imagem.
+
+📝 Script SQL
+
+O arquivo script.sql contém:
+
+Criação das tabelas (com IF NOT EXISTS).
+
+Inserção de dados de teste (clientes, fornecedores, produtos, pedidos, pagamentos e entregas).
+
+Consultas SQL demonstrando:
+
+SELECT simples.
+
+Filtros com WHERE.
+
+Atributos derivados (valor total do pedido).
+
+Ordenação (ORDER BY).
+
+Agrupamento com HAVING.
+
+Junções entre tabelas (JOIN).
+
+🔎 Exemplos de Consultas
+
+1. Pedidos por cliente
 
 SELECT c.nome, COUNT(p.pedido_id) AS total_pedidos
 FROM Cliente c
@@ -89,32 +108,33 @@ JOIN Pedido p ON c.cliente_id = p.cliente_id
 GROUP BY c.nome;
 
 
-2. **Valor total de cada pedido**
+2. Valor total de cada pedido
 
 SELECT p.pedido_id, SUM(pp.quantidade * pp.preco_unitario) AS valor_total
 FROM Pedido p
 JOIN PedidoProduto pp ON p.pedido_id = pp.pedido_id
 GROUP BY p.pedido_id;
 
-3. **Produto e Fornecedores**
+
+3. Produtos e seus fornecedores
 
 SELECT f.nome AS fornecedor, pr.nome AS produto
 FROM Fornecedor f
 JOIN FornecedorProduto fp ON f.fornecedor_id = fp.fornecedor_id
 JOIN Produto pr ON fp.produto_id = pr.produto_id;
 
-Observações
+🚀 Como Executar
 
-Todo o projeto foi feito em SQLite, podendo ser executado em SQLiteOnline ou em qualquer cliente SQLite.
-O banco está populado com dados de teste, permitindo validação das queries.
-O diagrama no Draw.io ajuda a visualizar os relacionamentos e cardinalidades.
+Abra o arquivo script.sql no SQLiteOnline ou em outro cliente SQLite.
 
-Como Testar
+Execute todo o script para criar e popular o banco.
 
-Abrir o arquivo script.sql no SQLiteOnline
-Executar todo o script (criação de tabelas + INSERTs)
-Rodar as queries de teste para validar o funcionamento
+Rode as queries de teste para validar o funcionamento.
 
+👤 Autor
+
+Breno Rodrigues Bittencourt
 Autor
 
 Breno Rodrigues Bittencourt
+
